@@ -1,47 +1,29 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 public class Producto_Test {
-    public ExpectedException exception= ExpectedException.none();
-    private Producto producto;
-    @Before
-    public void setap(){
-        exception.expect(RuntimeException.class);
-        producto=new Producto();
+    public Producto producto;
+    @Test
+    public void SiNombreEstaVacioRetornarFalse(){
+        producto=new Producto("", 123, "Peces-123");
+        String cadena= producto.getNombre();
+        boolean respuesta=producto.noEstaVacioElNombre(cadena);
+        assertEquals(false, respuesta);
+    }
+    @Test
+    public void SiNombreTieneMasDe35CaracteresDevolverFalse(){
+        producto=new Producto("motor x200 marca boyu de una entrada y una salida", 123, "Peces-123");
+        String cadena= producto.getNombre();
+        boolean respuesta=producto.verificarCaracteresMaximos(cadena);
+        assertEquals(false, respuesta);
+    }
+    @Test
+    public void SiPrecioEsUnNUmeroMenorIgualACeroDevolvemosFalse(){
+        producto=new Producto("motor x200 ", 0, "Peces-123");
+        int precio= producto.getPrecio();
+        boolean respuesta=producto.VerificarPrecio(precio);
+        assertEquals(false, respuesta);
     }
 
-    @Test
-    public void SiElNombreEstaVacioReportar() throws Exception{
-        try {
-            producto.VerificarNombreNoVacio("");
-            fail("Ingrese el nombre porfavor");
-        } catch (Exception e) {
-            
-        }
-    }
-
-    @Test
-    public void siElNombreEsMayor_a_35CaracteresLazarExcepcion(){
-        try {
-            producto.verificarCaracteresMaximos("Motor electrico para pecera marca boyu");
-            fail("Sobre paso el maximo de caracteres aceptables");
-        } catch (Exception e) {
-            
-        }
-    }
-
-    @Test
-    public void siElPrecioEsMenorIgual_a_ceroReportar(){
-        try {
-            producto.VerificarPrecio(0);
-            fail("Ingrese de precio un numero positivo");
-        } catch (Throwable e) {
-            
-        }
-    }
-    
 }
